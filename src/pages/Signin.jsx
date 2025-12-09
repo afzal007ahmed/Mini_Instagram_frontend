@@ -20,7 +20,7 @@ const Signin = () => {
 
   useEffect(() => {
     if (mount.current && !user.loading && user?.data ) {
-      if (user.data && !user.error) {
+      if (user?.data && Object.keys(user.data).length > 0 && !user.error) {
         toast(<p className="text-md font-bold">Status</p>, {
           description: (
             <p className="font-bold text-green-600 text-md">Login Success</p>
