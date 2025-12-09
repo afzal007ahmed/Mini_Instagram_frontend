@@ -32,7 +32,7 @@ const CreatePost = () => {
       const formData = new FormData();
       formData.append("title", postDetails.title);
       formData.append("description", postDetails.description);
-      formData.append("image", postDetails.image);
+      formData.append("image", postDetails.image ? postDetails.image : "");
       formData.append("userId", user.data.id);
       const response = await axios.post(
         `${import.meta.env.VITE_API}posts`,
