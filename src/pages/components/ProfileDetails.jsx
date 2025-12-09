@@ -158,11 +158,11 @@ const ProfileDetails = () => {
                     <div className="border mb-4 rounded-lg w-full max-w-full p-3">
                       <h1 className="font-bold text-lg mb-2">{item.title}</h1>
                       <hr />
-                      <img
+                      { item.url && <img
                         src={item.url}
                         alt="post_img"
                         className="rounded-lg my-3 object-cover object-center w-full"
-                      />
+                      />}
                       <p className="font-bold">{item.description}</p>
                       <div className="my-2 flex gap-3">
                         <span>
