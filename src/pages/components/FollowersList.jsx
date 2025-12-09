@@ -25,7 +25,7 @@ const FollowersList = () => {
             {followersCount.data && followersCount.data.length}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] mx-4 bg-[#282828] border-none shadow-lg text-white">
+        <DialogContent className="sm:max-w-[425px] bg-[#282828] border-none shadow-lg text-white">
           <DialogHeader>
             <DialogTitle>Followers</DialogTitle>
           </DialogHeader>
