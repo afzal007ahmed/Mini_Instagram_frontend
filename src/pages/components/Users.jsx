@@ -79,7 +79,7 @@ const Users = () => {
                         ? "2151839621.jpg"
                         : "2151100252.jpg"
                     }
-                    className="h-[60px] w-[60px] object-cover rounded-[60px] object-center border-[2px]"
+                    className="h-[60px] min-w-[60px] w-[60px] object-cover rounded-[60px] object-center border-[2px]"
                   />
                   <div>
                     <p className="text-lg font-bold">{item.name}</p>
