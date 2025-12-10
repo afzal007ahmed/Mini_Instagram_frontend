@@ -9,7 +9,6 @@ const socket = io(import.meta.env.SOCKET_URL , {
     reconnectionDelay : 2000
 }) ;
 
-console.log( socket.connected ) ;
 
 
 
