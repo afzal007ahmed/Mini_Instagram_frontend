@@ -21,6 +21,7 @@ function App() {
   useEffect(() => {
     userDetails();
     socket.on("regiter-response", ({ message }) => {
+      console.log( message ) ;
       toast(<p className="text-md font-bold">Connection Status</p>, {
         description: (
           <p className="font-bold text-green-600 text-md">
