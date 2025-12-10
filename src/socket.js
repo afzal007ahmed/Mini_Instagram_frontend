@@ -6,6 +6,10 @@ const socket = io(import.meta.env.SOCKET_URL , {
     autoConnect : true 
 }) ;
 
+if( !socket.connected ) {
+    socket.connect();
+} 
+
 
 
 export default socket ; 
