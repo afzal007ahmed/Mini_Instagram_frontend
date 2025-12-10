@@ -20,7 +20,7 @@ function App() {
 
   useEffect(() => {
     userDetails();
-    socket.on("regiter-response", ({ message }) => {
+    socket.on("register-response", ({ message }) => {
       console.log( message ) ;
       toast(<p className="text-md font-bold">Connection Status</p>, {
         description: (
