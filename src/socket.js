@@ -2,6 +2,7 @@ import { io  } from "socket.io-client";
 
 
 const socket = io(import.meta.env.SOCKET_URL , {
+    transports : ['websocket'] ,
     withCredentials : true ,
     autoConnect : true ,
     reconnection : true ,
