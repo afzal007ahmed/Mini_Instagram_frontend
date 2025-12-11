@@ -9,6 +9,13 @@ import { toast } from "sonner";
 function App() {
   const { userDetails } = useUserDetails();
   const user = useSelector((state) => state.userReducer);
+  function socketNotify(message) {
+    toast(<p className="text-md font-bold">Connection Status</p>, {
+      description: (
+        <p className="font-bold text-green-600 text-md">{message}</p>
+      ),
+    });
+  }
 
   useEffect(() => {
     if (user?.data?.id) {
@@ -20,21 +27,19 @@ function App() {
 
   useEffect(() => {
     userDetails();
-   
-    socket.on('connect' , () => {
+
+    socket.on("connect", () => {
       console.log("Connected");
-    })
+    });
 
     socket.on("register-response", ({ message }) => {
-      console.log( message ) ;
-      toast(<p className="text-md font-bold">Connection Status</p>, {
-        description: (
-          <p className="font-bold text-green-600 text-md">
-            {message}
-          </p>
-        ),
-      });
+      socketNotify(message)
     });
+  
+    socket.on('create-post-response' , ({message}) => {
+      socketNotify( message ) ;
+    })
+
   }, []);
 
   return (
