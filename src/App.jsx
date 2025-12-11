@@ -9,8 +9,8 @@ import { toast } from "sonner";
 function App() {
   const { userDetails } = useUserDetails();
   const user = useSelector((state) => state.userReducer);
-  function socketNotify(message) {
-    toast(<p className="text-md font-bold">Connection Status</p>, {
+  function socketNotify( title , message) {
+    toast(<p className="text-md font-bold">{title}</p>, {
       description: (
         <p className="font-bold text-green-600 text-md">{message}</p>
       ),
@@ -33,11 +33,11 @@ function App() {
     });
 
     socket.on("register-response", ({ message }) => {
-      socketNotify(message)
+      socketNotify( "Connection status" , message)
     });
   
     socket.on('create-post-response' , ({message}) => {
-      socketNotify( message ) ;
+      socketNotify( "Update" ,  message ) ;
     })
 
   }, []);
