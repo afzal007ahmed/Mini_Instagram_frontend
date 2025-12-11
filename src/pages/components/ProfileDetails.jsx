@@ -58,7 +58,7 @@ const ProfileDetails = () => {
     try {
       dispatch(userLoading());
       const formData = new FormData();
-      formData.append("image", profileImg);
+      formData.append("image", profileImg ? profileImg : "");
       if (user.data.public_id) {
         formData.append("public_id", user.data.public_id);
       }
