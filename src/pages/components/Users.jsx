@@ -1,11 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import useFollowUser from "@/hooks/useFollowUser";
-import {
-  followingListFailed,
-  followingListLoading,
-  followingListSuccess,
-} from "@/redux/follwingListSlice";
+import useStatus from "@/hooks/useStatus";
 import {
   userListFailed,
   userListLoading,
@@ -15,13 +11,16 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
+import ChatBox from "./ChatBox";
 
 const Users = () => {
   const usersList = useSelector((state) => state.userListReducer);
+  const userStatus = useSelector((state) => state.onlineStatusReducer);
   const followingList = useSelector((state) => state.followingListReducer);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer);
   const { followUser, fetchFollowings } = useFollowUser();
+  const { onlineStatus } = useStatus();
 
   const fetchUsers = async () => {
     try {
@@ -49,6 +48,7 @@ const Users = () => {
   useEffect(() => {
     fetchUsers();
     fetchFollowings();
+    onlineStatus();
   }, []);
 
   async function handleFollowUnfollow(id) {
@@ -69,24 +69,27 @@ const Users = () => {
             {usersList.data.map((item) => (
               <div className="mt-3 flex items-center gap-4 bg-black p-4 rounded-lg min-w-[300px] justify-between cursor-pointer">
                 <div className="flex items-center gap-4">
-                  <img
-                    src={
-                      item?.url
-                        ? item.url
-                        : item?.gender === "male"
-                        ? "2150793895.jpg"
-                        : item?.gender === "female"
-                        ? "2151839621.jpg"
-                        : "2151100252.jpg"
-                    }
-                    className="h-[60px] min-w-[60px] w-[60px] object-cover rounded-[60px] object-center border-[2px]"
-                  />
+                  <div>
+                    <img
+                      src={
+                        item?.url
+                          ? item.url
+                          : item?.gender === "male"
+                          ? "2150793895.jpg"
+                          : item?.gender === "female"
+                          ? "2151839621.jpg"
+                          : "2151100252.jpg"
+                      }
+                      className="h-[60px] min-w-[60px] w-[60px] object-cover rounded-[60px] object-center border-[2px]"
+                    />
+                    <div className={`border h-[20px] w-[20px] relative -top-4 bg-gray-500 rounded-[20px] ${ userStatus?.data?.[ item.id ] ? "bg-green-600" : "bg-gray-500" }`}></div>
+                  </div>
                   <div>
                     <p className="text-lg font-bold">{item.name}</p>
                     <p className="text-sm font-medium">{item.gender}</p>
                   </div>
                 </div>
-                <div>
+                <div className="flex flex-wrap justify-end gap-2">
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -99,6 +102,7 @@ const Users = () => {
                   >
                     {followingList.data?.[item.id] ? "Following" : "Follow"}
                   </Button>
+                  <ChatBox name={item.name} id={item.id}/>
                 </div>
               </div>
             ))}

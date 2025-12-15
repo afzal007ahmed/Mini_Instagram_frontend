@@ -7,13 +7,15 @@ import socket from "./socket";
 import { toast } from "sonner";
 import useFeed from "./hooks/useFeed";
 import useHandleLikeDislike from "./hooks/useHandleLikeDislike";
+import useStatus from "./hooks/useStatus";
+import useMessage from "./hooks/useMessage";
 
 function App() {
   const { userDetails } = useUserDetails();
-  const dispatch = useDispatch();
-  const { getPostsReactions, getReactionCount } =
-    useHandleLikeDislike();
+  const { getPostsReactions, getReactionCount } = useHandleLikeDislike();
   const { postsFeed } = useFeed();
+  const { allMessages } = useMessage() ;
+  const { onlineStatus } = useStatus();
   const user = useSelector((state) => state.userReducer);
   function socketNotify(title, message) {
     toast(<p className="text-md font-bold">{title}</p>, {
@@ -39,13 +41,25 @@ function App() {
     });
 
     socket.on("register-response", ({ message }) => {
-      socketNotify("Connection status", message);
+      onlineStatus();
     });
 
+    socket.on("disconnect-response", () => {
+      onlineStatus();
+    });
+
+    socket.on("new-message", ({ name, id, message }) => {
+      toast(<p className="text-md font-bold">{name}</p>, {
+        description: (
+          <p className="font-bold text-green-600 text-md">{message}</p>
+        ),
+      });
+      allMessages(id) ;
+    });
     socket.on("create-post-response", ({ message }) => {
-      postsFeed() ;
+      postsFeed();
       getPostsReactions();
-      getReactionCount() ;
+      getReactionCount();
       socketNotify("Update", message);
     });
   }, []);
