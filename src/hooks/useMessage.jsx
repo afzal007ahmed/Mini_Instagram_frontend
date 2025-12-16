@@ -22,9 +22,14 @@ const useMessage = () => {
     } catch (error) {
       toast(<p className="text-md font-bold">Message Status</p>, {
         description: (
-          <p className="font-bold text-green-600 text-md">{error?.response?.data?.error || error.message }</p>
+          <p className="font-bold text-red-600 text-md">
+            {error?.response?.data?.error || error.message}
+          </p>
         ),
       });
+      if (error.response && error.response.status === 401) {
+        nav("/login");
+      }
     }
   }
   async function allMessages(id) {
@@ -36,14 +41,24 @@ const useMessage = () => {
       );
       dispatch(currentChatSuccess(response.data));
     } catch (error) {
+      toast(<p className="text-md font-bold">Message Status</p>, {
+        description: (
+          <p className="font-bold text-red-600 text-md">
+            {error?.response?.data?.error || error.message}
+          </p>
+        ),
+      });
       dispatch(
         currentChatFailed(error?.response?.data?.error || error.message)
       );
+      if (error.response && error.response.status === 401) {
+        nav("/login");
+      }
     }
   }
   return {
     addMessage,
-    allMessages
+    allMessages,
   };
 };
 
