@@ -19,6 +19,7 @@ const useMessage = () => {
         },
         { withCredentials: true }
       );
+      allMessages( id ) ;
     } catch (error) {
       toast(<p className="text-md font-bold">Message Status</p>, {
         description: (
