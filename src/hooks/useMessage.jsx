@@ -6,10 +6,12 @@ import {
 import axios from "axios";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 const useMessage = () => {
   const dispatch = useDispatch();
+  const nav = useNavigate() ;
   async function addMessage(message, id) {
     try {
       const response = await axios.post(
